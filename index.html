@@ -7,10 +7,10 @@
 :root { --blue:#0a2f57; --link:#0a5fa8; --bg:#f4f7fb; }
 * { box-sizing:border-box; }
 body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1d2a3b;}
-.card{max-width:820px;margin:28px auto;padding:26px;background:#fff;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.10);display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center;}
-.photo{width:180px;height:180px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#eef;}
-.photo img{width:100%;height:100%;object-fit:cover;}
-.h{font-weight:800;font-size:30px;letter-spacing:0.2px;color:var(--blue);margin:0 0 2px;}
+.card{max-width:860px;margin:28px auto;padding:28px;background:#fff;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.10);display:grid;grid-template-columns:210px 1fr;gap:26px;align-items:center;}
+.photo{width:210px;height:210px;border-radius:50%;overflow:hidden;border:6px solid #eef;background:#eef;}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;}
+.h{font-weight:800;font-size:32px;letter-spacing:0.2px;color:var(--blue);margin:0 0 4px;}
 .s{font-size:18px;margin:2px 0 6px;color:#304b6b;}
 .k{font-size:14px;margin:0 0 14px;color:#4a678a;}
 .hr{height:1px;background:#e7edf4;margin:14px 0;border:0;}
@@ -19,23 +19,24 @@ a{color:var(--link);text-decoration:none;font-weight:700;}
 .addr{line-height:1.45;margin-top:4px;}
 .btns{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
 .btns a{padding:10px 14px;border:1px solid #d6e1ee;border-radius:10px;text-decoration:none;font-weight:700;}
-@media (max-width:640px){.card{grid-template-columns:1fr;}.photo{margin:0 auto;}}
+@media (max-width:640px){.card{grid-template-columns:1fr;}.photo{margin:0 auto 8px;}}
 .footer{text-align:center;color:#567;margin:16px 0;font-size:12px;}
 </style>
 <main class="card">
-  <div class="photo"><img src="photo.jpg" alt="Edwin Brown headshot"></div>
+  <!-- CHANGE HERE: use your new headshot file name -->
+  <div class="photo"><img src="headshot_edwin.png" alt="Edwin Brown headshot" fetchpriority="high"></div>
   <div>
     <h1 class="h">Edwin Brown MPA</h1>
     <div class="s">Financial Professional</div>
     <div class="k">License No. 1917351</div>
-    <div class="row">📞&nbsp;<a href="tel:+16802978979">680‑297‑8979</a></div>
+    <div class="row">📞&nbsp;<a href="tel:+16802978979">680-297-8979</a></div>
     <div class="row">✉️&nbsp;<a href="mailto:ebrown13@ft.newyorklife.com">ebrown13@ft.newyorklife.com</a></div>
     <div class="hr"></div>
     <div class="addr">
       <div>New York Life Insurance Company</div>
       <div>Licensed Agent</div>
       <div>5788 Widewaters Parkway, 2nd Floor</div>
-      <div>DeWitt, NY 13214‑1321</div>
+      <div>DeWitt, NY 13214-1321</div>
     </div>
     <div class="btns">
       <a href="tel:+16802978979">Call</a>
