@@ -1,39 +1,270 @@
 <!doctype html>
-} else if (totalScore <= 100) {
-bucket = 'Some gaps';
-descEl.textContent = 'There may be gaps or room for improvement in your current plan.';
-} else {
-bucket = 'High exposure';
-descEl.textContent = 'Your family may be at risk if something happens. Let’s prioritise closing those gaps.';
-}
-scoreEl.textContent = `Score: ${totalScore} – ${bucket}`;
-window.scoreBucket = bucket; // expose for submission
-}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Family Protection Readiness Score</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1>Family Protection Readiness Score</h1>
+      <p>Take this quick quiz to find out if your current coverage meets your family's needs.</p>
+    </header>
 
+    <!-- Quiz container -->
+    <div id="quiz-container"><!-- injected by JS --></div>
 
-document.addEventListener('DOMContentLoaded', () => {
-renderQuestion();
-});
+    <!-- Result section (hidden until quiz complete) -->
+    <div id="result-section" class="hidden">
+      <h2>Your Readiness Score</h2>
+      <p id="score-output"></p>
+      <p id="score-description"></p>
+      <button id="book-btn" class="cta-button">Book your free 20‑minute review</button>
+    </div>
 
+    <!-- Lead capture form (hidden until quiz complete) -->
+    <div id="lead-form" class="hidden">
+      <h3>Get your personalised summary</h3>
+      <form id="contact-form">
+        <label for="fname">First name</label>
+        <input type="text" id="fname" name="first_name" required>
 
-// Book button click → open email compose
-document.addEventListener('click', function(e){
-if (e.target && e.target.id === 'book-btn') {
-window.location.href = 'mailto:ebrown13@ft.newyorklife.com?subject=Schedule%20Financial%20Readiness%20Review';
-}
-});
-</script>
+        <label for="lname">Last name</label>
+        <input type="text" id="lname" name="last_name" required>
 
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
 
-<!-- =========================
-Email capture via FormSubmit (no admin permissions required)
-========================= -->
-<script>
-(function(){
-var form = document.querySelector('#contact-form');
-if (!form) return;
+        <label for="phone">Mobile phone (optional)</label>
+        <input type="tel" id="phone" name="phone">
 
+        <label for="city">City</label>
+        <input type="text" id="city" name="city">
 
+        <label for="role">Role</label>
+        <select id="role" name="role">
+          <option value="Active Duty">Active Duty</option>
+          <option value="Spouse">Spouse</option>
+          <option value="Veteran">Veteran</option>
+          <option value="Civilian">Civilian</option>
+        </select>
+
+        <label for="preferred-time">Preferred time</label>
+        <input type="text" id="preferred-time" name="preferred_time" placeholder="E.g. afternoons, evenings">
+
+        <div class="checkboxes">
+          <label><input type="checkbox" id="consent-email" name="consent_email"> I agree to receive emails</label>
+          <label><input type="checkbox" id="consent-sms" name="consent_sms"> I agree to receive text reminders</label>
+        </div>
+        <p class="consent-text">By submitting this form you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a> and consent to receive calls, emails and texts (including by automated means) about your inquiry. Consent isn’t required to purchase. Reply STOP to cancel, HELP for help. Message and data rates may apply.</p>
+        <button type="submit" class="cta-button">Submit</button>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>Edwin Brown, NY‑Licensed Agent (#1917351)</p>
+      <p>New York Life Insurance Company, 5788 Widewaters Parkway, 2nd Floor, Dewitt, NY 13214‑1321</p>
+      <p>Phone: <a href="tel:+16802978978">680‑297‑8978</a> | Email: <a href="mailto:ebrown13@ft.newyorklife.com">ebrown13@ft.newyorklife.com</a></p>
+      <p>Information provided is for educational purposes only and does not constitute a recommendation. For personalised advice, schedule a review.</p>
+    </footer>
+  </main>
+
+  <script>
+    // =========================
+    // Quiz logic (no framework)
+    // =========================
+    const questions = [
+      { text: 'What best describes your household?', options: [
+          { text: 'Single with no dependents', score: 5 },
+          { text: 'Married/partnered, no kids', score: 10 },
+          { text: 'Family with kids', score: 20 },
+          { text: 'Other', score: 10 }
+        ] },
+      { text: 'How many children do you have?', options: [
+          { text: '0', score: 0 },
+          { text: '1', score: 5 },
+          { text: '2', score: 10 },
+          { text: '3+', score: 15 }
+        ] },
+      { text: 'What is your annual household income?', options: [
+          { text: 'Less than $50k', score: 10 },
+          { text: '$50k - $100k', score: 15 },
+          { text: '$100k - $150k', score: 20 },
+          { text: 'Over $150k', score: 25 }
+        ] },
+      { text: 'Do you currently have life insurance?', options: [
+          { text: 'No coverage', score: 20 },
+          { text: 'Employer/SGLI only', score: 10 },
+          { text: 'Individual policy (term)', score: 5 },
+          { text: 'Individual policy (permanent)', score: 0 }
+        ] },
+      { text: 'Does your employer provide disability income insurance?', options: [
+          { text: 'Yes', score: 5 },
+          { text: 'No', score: 10 },
+          { text: 'Not sure', score: 10 }
+        ] },
+      { text: 'Do you have debts (student, mortgage, credit cards)?', options: [
+          { text: 'None', score: 0 },
+          { text: 'Less than $50k', score: 5 },
+          { text: '$50k - $200k', score: 10 },
+          { text: 'Over $200k', score: 15 }
+        ] },
+      { text: 'How long could your emergency fund cover expenses?', options: [
+          { text: 'Less than 1 month', score: 15 },
+          { text: '1-3 months', score: 10 },
+          { text: '4-6 months', score: 5 },
+          { text: 'Over 6 months', score: 0 }
+        ] },
+      { text: 'Do you use tobacco/nicotine products?', options: [
+          { text: 'Never', score: 0 },
+          { text: 'Occasionally', score: 5 },
+          { text: 'Daily', score: 10 }
+        ] },
+      { text: 'Any significant health conditions?', options: [
+          { text: 'None', score: 0 },
+          { text: 'Minor', score: 5 },
+          { text: 'Major (e.g. heart, diabetes)', score: 10 }
+        ] },
+      { text: 'What is your time horizon for financial goals?', options: [
+          { text: 'Under 5 years', score: 5 },
+          { text: '5-10 years', score: 10 },
+          { text: 'Over 10 years', score: 5 }
+        ] },
+      { text: 'What monthly budget could you allocate to protection?', options: [
+          { text: 'Less than $50', score: 15 },
+          { text: '$50 - $100', score: 10 },
+          { text: '$100 - $200', score: 5 },
+          { text: 'Over $200', score: 0 }
+        ] },
+      { text: 'How confident are you in your current plan?', options: [
+          { text: 'Very confident', score: 0 },
+          { text: 'Somewhat confident', score: 5 },
+          { text: 'Not confident', score: 10 }
+        ] },
+    ];
+
+    let currentQuestion = 0;
+    let totalScore = 0;
+
+    function renderQuestion() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = '';
+      if (currentQuestion < questions.length) {
+        const q = questions[currentQuestion];
+        const questionEl = document.createElement('div');
+        questionEl.className = 'quiz-question';
+        const h3 = document.createElement('h3');
+        h3.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+        const p = document.createElement('p');
+        p.textContent = q.text;
+        questionEl.appendChild(h3);
+        questionEl.appendChild(p);
+        q.options.forEach((opt) => {
+          const btn = document.createElement('button');
+          btn.textContent = opt.text;
+          btn.className = 'option-button';
+          btn.addEventListener('click', () => {
+            totalScore += opt.score;
+            currentQuestion++;
+            renderQuestion();
+          });
+          questionEl.appendChild(btn);
+        });
+        container.appendChild(questionEl);
+      } else {
+        // Quiz complete → show results and form
+        document.getElementById('result-section').classList.remove('hidden');
+        document.getElementById('lead-form').classList.remove('hidden');
+        showScore();
+      }
+    }
+
+    function showScore() {
+      const scoreEl = document.getElementById('score-output');
+      const descEl = document.getElementById('score-description');
+      let bucket;
+      if (totalScore <= 60) {
+        bucket = 'Solid foundation';
+        descEl.textContent = 'Your basic protection needs seem well‑covered. Let’s explore optimising your plan.';
+      } else if (totalScore <= 100) {
+        bucket = 'Some gaps';
+        descEl.textContent = 'There may be gaps or room for improvement in your current plan.';
+      } else {
+        bucket = 'High exposure';
+        descEl.textContent = 'Your family may be at risk if something happens. Let’s prioritise closing those gaps.';
+      }
+      scoreEl.textContent = `Score: ${totalScore} – ${bucket}`;
+      window.scoreBucket = bucket; // expose for submission
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderQuestion();
+    });
+
+    // Book button → open email compose
+    document.addEventListener('click', function(e){
+      if (e.target && e.target.id === 'book-btn') {
+        window.location.href = 'mailto:ebrown13@ft.newyorklife.com?subject=Schedule%20Financial%20Readiness%20Review';
+      }
+    });
+  </script>
+
+  <!-- =========================
+       Email capture via FormSubmit (no admin permissions required)
+       ========================= -->
+  <script>
+  (function(){
+    var form = document.querySelector('#contact-form');
+    if (!form) return;
+
+    // Endpoint and method
+    form.action = 'https://formsubmit.co/ebrown13@ft.newyorklife.com';
+    form.method = 'POST';
+
+    function hid(name, val){
+      var i=document.createElement('input');
+      i.type='hidden'; i.name=name; i.value=val; form.appendChild(i);
+    }
+
+    // Formatting + redirect
+    hid('_subject','Readiness Quiz lead');
+    hid('_template','table');
+    hid('_captcha','false');
+    hid('_next', location.origin + location.pathname + '?thanks=1');
+
+    // Always include score + page + UTMs
+    var bucket = window.scoreBucket || 'Unknown';
+    hid('score', bucket);
+    hid('page', location.href);
+    var u = new URLSearchParams(location.search);
+    ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(function(k){ hid(k, u.get(k)||''); });
+
+    // Ensure consent values are sent as Yes/No
+    form.addEventListener('submit', function(){
+      var emailYes = document.getElementById('consent-email')?.checked ? 'Yes' : 'No';
+      var smsYes   = document.getElementById('consent-sms')?.checked ? 'Yes' : 'No';
+      hid('consent_email', emailYes);
+      hid('consent_sms', smsYes);
+    });
+  })();
+  </script>
+
+  <!-- Tiny thank‑you banner after redirect -->
+  <script>
+  (function(){
+    if (new URLSearchParams(location.search).get('thanks') === '1'){
+      var m=document.createElement('div');
+      m.style.cssText='background:#e6ffed;border:1px solid #b7eb8f;padding:12px;margin:16px 0;border-radius:8px';
+      m.textContent = "Thanks—I'll email you to book your 20‑minute Financial Readiness Review.";
+      document.body.prepend(m);
+    }
+  })();
+  </script>
+</body>
+</html>
 // Endpoint and method
 form.action = 'https://formsubmit.co/ebrown13@ft.newyorklife.com';
 form.method = 'POST';
