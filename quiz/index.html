@@ -220,7 +220,7 @@
     var form = document.querySelector('#contact-form');
     if (!form) return;
 
-    // *** REPLACE with the Gmail inbox you control ***
+    // *** Leads route to this Gmail ***
     var GMAIL_INBOX = 'fortbrown27@gmail.com';
 
     // Endpoint and method
@@ -232,10 +232,10 @@
       i.type='hidden'; i.name=name; i.value=val; form.appendChild(i);
     }
 
-    // Keep a copy going to work email (if tenant allows it)
+    // Keep a copy going to work email (if tenant allows)
     hid('_cc','ebrown13@ft.newyorklife.com');
 
-    // Formatting + redirect
+    // Formatting + redirect to on-site thank-you
     hid('_subject','Readiness Quiz lead');
     hid('_template','table');
     hid('_captcha','false');
