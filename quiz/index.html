@@ -213,21 +213,27 @@
   </script>
 
   <!-- =========================
-       Email capture via FormSubmit (no admin permissions required)
+       Email capture via FormSubmit (route to Gmail; CC work)
        ========================= -->
   <script>
   (function(){
     var form = document.querySelector('#contact-form');
     if (!form) return;
 
+    // *** REPLACE with the Gmail inbox you control ***
+    var GMAIL_INBOX = 'fortbrown27@gmail.com';
+
     // Endpoint and method
-    form.action = 'https://formsubmit.co/ebrown13@ft.newyorklife.com';
+    form.action = 'https://formsubmit.co/' + encodeURIComponent(GMAIL_INBOX);
     form.method = 'POST';
 
     function hid(name, val){
       var i=document.createElement('input');
       i.type='hidden'; i.name=name; i.value=val; form.appendChild(i);
     }
+
+    // Keep a copy going to work email (if tenant allows it)
+    hid('_cc','ebrown13@ft.newyorklife.com');
 
     // Formatting + redirect
     hid('_subject','Readiness Quiz lead');
@@ -242,12 +248,12 @@
     var u = new URLSearchParams(location.search);
     ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(function(k){ hid(k, u.get(k)||''); });
 
-    // Ensure consent values are sent as Yes/No
+    // On submit, also pass consent flags and set reply-to to the prospect email
     form.addEventListener('submit', function(){
-      var emailYes = document.getElementById('consent-email')?.checked ? 'Yes' : 'No';
-      var smsYes   = document.getElementById('consent-sms')?.checked ? 'Yes' : 'No';
-      hid('consent_email', emailYes);
-      hid('consent_sms', smsYes);
+      hid('consent_email', document.getElementById('consent-email')?.checked ? 'Yes' : 'No');
+      hid('consent_sms',   document.getElementById('consent-sms')?.checked ? 'Yes' : 'No');
+      var prospectEmail = document.getElementById('email')?.value || '';
+      if (prospectEmail) hid('_replyto', prospectEmail);
     });
   })();
   </script>
