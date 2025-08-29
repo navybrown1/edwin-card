@@ -1,49 +1,121 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Edwin Brown MPA — New York Life</title>
-<style>
-:root { --blue:#0a2f57; --link:#0a5fa8; --bg:#f4f7fb; }
-* { box-sizing:border-box; }
-body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1d2a3b;}
-.card{max-width:860px;margin:28px auto;padding:28px;background:#fff;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.10);display:grid;grid-template-columns:210px 1fr;gap:26px;align-items:center;}
-.photo{width:210px;height:210px;border-radius:50%;overflow:hidden;border:6px solid #eef;background:#eef;}
-.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;}
-.h{font-weight:800;font-size:32px;letter-spacing:0.2px;color:var(--blue);margin:0 0 4px;}
-.s{font-size:18px;margin:2px 0 6px;color:#304b6b;}
-.k{font-size:14px;margin:0 0 14px;color:#4a678a;}
-.hr{height:1px;background:#e7edf4;margin:14px 0;border:0;}
-.row{display:flex;gap:10px;align-items:center;margin:6px 0;font-size:17px;}
-a{color:var(--link);text-decoration:none;font-weight:700;}
-.addr{line-height:1.45;margin-top:4px;}
-.btns{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
-.btns a{padding:10px 14px;border:1px solid #d6e1ee;border-radius:10px;text-decoration:none;font-weight:700;}
-@media (max-width:640px){.card{grid-template-columns:1fr;}.photo{margin:0 auto 8px;}}
-.footer{text-align:center;color:#567;margin:16px 0;font-size:12px;}
-</style>
-<main class="card">
-  <!-- CHANGE HERE: use your new headshot file name -->
-  <div class="photo"><img src="headshot_edwin.png" alt="Edwin Brown headshot" fetchpriority="high"></div>
-  <div>
-    <h1 class="h">Edwin Brown MPA</h1>
-    <div class="s">Financial Professional</div>
-    <div class="k">License No. 1917351</div>
-    <div class="row">📞&nbsp;<a href="tel:+16802978978">680-297-8978</a></div>
-    <div class="row">✉️&nbsp;<a href="mailto:ebrown13@ft.newyorklife.com">ebrown13@ft.newyorklife.com</a></div>
-    <div class="hr"></div>
-    <div class="addr">
-      <div>New York Life Insurance Company</div>
-      <div>Licensed Agent</div>
-      <div>5788 Widewaters Parkway, 2nd Floor</div>
-      <div>DeWitt, NY 13214-1321</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edwin Brown, MPA - Financial Professional</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #eef;
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.8em;
+            color: #1a237e;
+        }
+        .title, .license {
+            font-size: 1em;
+            color: #555;
+            margin: 4px 0;
+        }
+        .contact-info {
+            margin: 20px 0;
+            text-align: left;
+            line-height: 1.6;
+        }
+        .contact-info p {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        .contact-info a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .buttons {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        .btn {
+            background-color: #f0f4f8;
+            border: none;
+            border-radius: 8px;
+            color: #333;
+            padding: 12px 10px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #dfe6ee;
+        }
+        .quiz-btn {
+            grid-column: 1 / -1; /* Make this button span all columns */
+            margin-top: 10px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <img src="headshot_edwin.png" alt="Edwin Brown" class="profile-pic">
+        <h1>Edwin Brown MPA</h1>
+        <p class="title">Financial Professional</p>
+        <p class="license">License No. 1917351</p>
+
+        <div class="contact-info">
+            <p><strong>Phone:</strong>&nbsp;<a href="tel:+16802978978">680-297-8978</a></p>
+            <p><strong>Email:</strong>&nbsp;<a href="mailto:ebrown13@ft.newyorklife.com">ebrown13@ft.newyorklife.com</a></p>
+            <p><strong>Company:</strong>&nbsp;New York Life Insurance Company</p>
+            <p><strong>Address:</strong>&nbsp;5788 Widewaters Parkway, 2nd Floor, DeWitt, NY 13214-1321</p>
+        </div>
+
+        <div class="buttons">
+            <a class="btn" href="tel:+16802978978">Call</a>
+            <a class="btn" href="mailto:ebrown13@ft.newyorklife.com">Email</a>
+            <a class="btn" href="https://maps.apple.com/?address=5788%20Widewaters%20Parkway,%20DeWitt,%20NY%2013214,%20United%20States">Map</a>
+            <a class="btn quiz-btn" href="./quiz/" style="background-color: #00A86B; color: white;">Take the Free Readiness Quiz</a>
+        </div>
     </div>
-    <div class="btns">
-      <a href="tel:+16802978978">Call</a>
-      <a href="mailto:ebrown13@ft.newyorklife.com">Email</a>
-      <a href="https://maps.apple.com/?address=5788%20Widewaters%20Pkwy,%20DeWitt,%20NY%2013214">Map</a>
-    </div>
-  </div>
-</main>
-<div class="footer">© 2025 New York Life Insurance Company. All rights reserved.</div>
+
+    <p class="footer">© 2025 New York Life Insurance Company. All rights reserved.</p>
+
+</body>
 </html>
