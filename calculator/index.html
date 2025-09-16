@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 60-Month Test: Housing Security Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <!-- Main Card -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10">
+            <div class="text-center">
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-800">The 60-Month Test</h1>
+                <p class="mt-2 text-slate-600">Your Housing Continuity Plan Calculator</p>
+            </div>
+
+            <!-- Introduction Text -->
+            <div class="mt-8 p-5 bg-slate-50 rounded-lg border border-slate-200">
+                <p class="text-slate-700 leading-relaxed">
+                    🤔 If your BAH feels short every month, it’s not you—it was designed that way. The Basic Allowance for Housing was never built to cover 100% of your rent, but closer to 95%. With shelter costs still climbing, that gap comes directly out of your wallet, squeezing your family’s budget.
+                </p>
+                <p class="mt-4 text-slate-700 font-semibold">
+                    Find your "stay housed" number below to build a rock-solid plan and keep a roof steady over your family's head, no matter what.
+                </p>
+            </div>
+
+            <!-- Calculator Section -->
+            <div class="mt-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="monthly-rent" class="block text-sm font-medium text-slate-700 mb-1">Monthly Rent ($)</label>
+                        <input type="number" id="monthly-rent" placeholder="e.g., 2200" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                    </div>
+                    <div>
+                        <label for="monthly-utilities" class="block text-sm font-medium text-slate-700 mb-1">Monthly Utilities ($)</label>
+                        <input type="number" id="monthly-utilities" placeholder="e.g., 350" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                    </div>
+                </div>
+                <button id="calculate-btn" class="w-full mt-6 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 active:scale-95 transition-transform">
+                    Calculate My "Stay Housed" Number
+                </button>
+            </div>
+
+            <!-- Result Display with Explanation -->
+            <div id="result-container" class="mt-8 bg-blue-50 border-2 border-dashed border-blue-200 rounded-lg p-6 hidden">
+                <div class="text-center">
+                    <p class="text-slate-600 text-lg">Your 60-Month "Stay Housed" Number is:</p>
+                    <p id="result-text" class="text-4xl md:text-5xl font-bold text-blue-700 mt-2"></p>
+                </div>
+                
+                <div class="mt-6 pt-4 border-t border-blue-200">
+                    <h3 class="text-lg font-semibold text-slate-800 text-center">What does this number mean?</h3>
+                    <p id="explanation-text" class="mt-2 text-slate-700 text-center max-w-lg mx-auto"></p>
+                    <p class="mt-4 text-sm text-slate-500 text-center max-w-md mx-auto">This number is the foundation of a simple Housing Continuity Plan. The next step is to protect it, ensuring your family is secure no matter what.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Free Consultation Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 mt-8">
+            <div class="text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Maximize Your Salary & Stop Feeling Broke</h2>
+                <p class="mt-4 text-slate-600 max-w-xl mx-auto">
+                    This calculator is a great first step. Now, let's create a personalized plan. In a free 20-minute consultation, we can explore strategies to make your salary go further and build real financial security for your family. No pressure, just a clear path forward.
+                </p>
+                <a href="https://navybrown1.github.io/edwin-card/" target="_blank" class="inline-block mt-6 bg-slate-800 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-900 active:scale-95 transition-transform">
+                    Book My Free 20-Min Session
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const rentInput = document.getElementById('monthly-rent');
+        const utilitiesInput = document.getElementById('monthly-utilities');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const resultContainer = document.getElementById('result-container');
+        const resultText = document.getElementById('result-text');
+        const explanationText = document.getElementById('explanation-text');
+
+        function calculateHousingNumber() {
+            const rent = parseFloat(rentInput.value) || 0;
+            const utilities = parseFloat(utilitiesInput.value) || 0;
+
+            if (rent <= 0 && utilities <= 0) {
+                 // Simple validation: hide result if both inputs are empty/zero
+                resultContainer.classList.add('hidden');
+                return;
+            }
+
+            const totalMonthlyCost = rent + utilities;
+            const stayHousedNumber = totalMonthlyCost * 60;
+
+            // Formatters
+            const currencyFormatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            });
+             const monthlyCostFormatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+
+            // Populate the result and explanation
+            resultText.textContent = currencyFormatter.format(stayHousedNumber);
+            const formattedMonthlyCost = monthlyCostFormatter.format(totalMonthlyCost);
+            explanationText.textContent = `This is the total amount your family would need to cover housing for the next five years (60 months) if your income suddenly stopped. It's calculated by multiplying your total monthly housing cost of ${formattedMonthlyCost} by 60.`;
+            
+            resultContainer.classList.remove('hidden');
+        }
+        
+        // Calculate on button click
+        calculateBtn.addEventListener('click', calculateHousingNumber);
+        
+        // Also calculate when user types in the input fields for a more dynamic feel
+        // rentInput.addEventListener('input', calculateHousingNumber);
+        // utilitiesInput.addEventListener('input', calculateHousingNumber);
+        
+    </script>
+
+</body>
+</html>
+
